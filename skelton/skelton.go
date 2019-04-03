@@ -2,11 +2,13 @@ package skelton
 
 import (
 	"fmt"
-	"io"
+	"html/template"
 	"log"
 	"os"
 	"path/filepath"
 	"strings"
+
+	"github.com/kenji-imi/goskelton/tmpl"
 )
 
 type Config struct {
@@ -21,11 +23,10 @@ func (c *Config) validate() error {
 	}
 	if len(c.Dest) > 0 {
 		c.Dest = strings.TrimRight(c.Dest, "/")
-	} else if os.Getenv("GOSKELTON_HOME") != "" {
-		c.Dest = os.Getenv("GOSKELTON_HOME")
+	} else if os.Getenv("GOSKELTON_DESTINATION_HOME") != "" {
+		c.Dest = os.Getenv("GOSKELTON_DESTINATION_HOME")
 	} else {
 		c.Dest = "."
-		// c.Dest = "/Users/kimai/go/src/github.com/kenji-imi"
 	}
 	log.Printf("goskelton: Dest directory is %s.\n", c.Dest)
 
@@ -47,19 +48,15 @@ func Run(config *Config) error {
 	}
 	defer out.Close()
 
-	for _, targetFile := range []string{
-		"Makefile",
-		"main.go",
-		"src/hello/hello.go",
+	for targetFile, tmplStr := range map[string]string{
+		"Makefile":           tmpl.MakefileTmpl,
+		"main.go":            tmpl.MainGoTmpl,
+		"src/hello/hello.go": tmpl.HelloGoTmpl,
 	} {
-		var srcfd *os.File
-		var dstfd *os.File
-
-		src := "./template/" + targetFile
-		if srcfd, err = os.Open(src); err != nil {
+		t, err := template.New("").Parse(tmplStr)
+		if err != nil {
 			return err
 		}
-		defer srcfd.Close()
 
 		basedir := path + "/" + filepath.Dir(targetFile)
 		if basedir != "" {
@@ -70,14 +67,17 @@ func Run(config *Config) error {
 			}
 		}
 
-		dst := path + "/" + targetFile
-		if dstfd, err = os.Create(dst); err != nil {
+		dest := path + "/" + targetFile
+		f, err := os.Create(dest)
+		defer f.Close()
+		if err != nil {
 			return err
 		}
-		defer dstfd.Close()
-
-		if _, err := io.Copy(dstfd, srcfd); err != nil {
-			panic(err)
+		err = t.Execute(f, map[string]interface{}{
+			"Path": path,
+		})
+		if err != nil {
+			return err
 		}
 	}
 

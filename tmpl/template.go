@@ -1,4 +1,24 @@
-.PHONY: init
+package tmpl
+
+const MainGoTmpl = `package main
+
+import "{{ .Path }}/src/hello"
+
+func main() {
+	hello.SayHello()
+}
+`
+
+const HelloGoTmpl = `package hello
+
+import "fmt"
+
+func SayHello() {
+	fmt.Println("Hello!")
+}
+`
+
+const MakefileTmpl = `.PHONY: init
 init:
 	go get -v -u golang.org/x/tools/cmd/goimports
 
@@ -71,3 +91,4 @@ downgrade_protoc:
 	git checkout v1.5.1
 	go install
 	git checkout master
+`
