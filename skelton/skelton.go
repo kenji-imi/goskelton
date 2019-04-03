@@ -12,23 +12,34 @@ import (
 )
 
 type Config struct {
-	Dest string
-	Name string
+	Project string
+	User    string
+	Dest    string
 }
 
 func (c *Config) validate() error {
-	if len(c.Name) == 0 {
-		msg := "goskelton: Name was empty"
-		return fmt.Errorf(msg)
+	// project name
+	if len(c.Project) == 0 {
+		return fmt.Errorf("[ERROR] Project Name was empty")
 	}
+
+	// user name
+	if len(c.User) == 0 {
+		if os.Getenv("GOSKELTON_USER") != "" {
+			c.User = os.Getenv("GOSKELTON_USER")
+		} else {
+			return fmt.Errorf("[ERROR] User Name was empty")
+		}
+	}
+
+	// destination
 	if len(c.Dest) > 0 {
-		c.Dest = strings.TrimRight(c.Dest, "/")
-	} else if os.Getenv("GOSKELTON_DESTINATION_HOME") != "" {
-		c.Dest = os.Getenv("GOSKELTON_DESTINATION_HOME")
+		c.Dest = strings.TrimRight(c.Project, "/")
+	} else if os.Getenv("GOSKELTON_DEST_DIR") != "" {
+		c.Dest = os.Getenv("GOSKELTON_DEST_DIR")
 	} else {
 		c.Dest = "."
 	}
-	log.Printf("goskelton: Dest directory is %s.\n", c.Dest)
 
 	return nil
 }
@@ -38,10 +49,12 @@ func Run(config *Config) error {
 		return err
 	}
 
-	path := config.Dest + "/" + config.Name
+	path := config.Dest + "/" + config.Project
 	if err := os.Mkdir(path, 0755); err != nil {
 		return err
 	}
+	log.Printf("[INFO] Created %s\n", path)
+
 	out, err := os.Open(path)
 	if err != nil {
 		return err
@@ -64,6 +77,7 @@ func Run(config *Config) error {
 				if err := os.MkdirAll(basedir, 0755); err != nil {
 					return err
 				}
+				log.Printf("[INFO] Created %s\n", basedir)
 			}
 		}
 
@@ -74,11 +88,14 @@ func Run(config *Config) error {
 			return err
 		}
 		err = t.Execute(f, map[string]interface{}{
-			"Path": path,
+			"Project": config.Project,
+			"User":    config.User,
+			"Path":    path,
 		})
 		if err != nil {
 			return err
 		}
+		log.Printf("[INFO] Created %s\n", dest)
 	}
 
 	return nil

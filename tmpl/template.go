@@ -2,7 +2,7 @@ package tmpl
 
 const MainGoTmpl = `package main
 
-import "{{ .Path }}/src/hello"
+import "github.com/{{ .User }}/{{ .Project }}/src/hello"
 
 func main() {
 	hello.SayHello()
@@ -18,7 +18,11 @@ func SayHello() {
 }
 `
 
-const MakefileTmpl = `.PHONY: init
+const MakefileTmpl = `.PHONY: mod_init
+mod_init:
+	go mod init github.com/{{} .User }}/{{ .Project }}
+
+.PHONY: init
 init:
 	go get -v -u golang.org/x/tools/cmd/goimports
 
