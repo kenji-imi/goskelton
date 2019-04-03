@@ -20,8 +20,12 @@ func RunCli(args []string) {
 
 var flags = []cli.Flag{
 	cli.StringFlag{
-		Name:  "name",
+		Name:  "project",
 		Usage: "generated project name",
+	},
+	cli.StringFlag{
+		Name:  "user",
+		Usage: "git user name",
 	},
 	cli.StringFlag{
 		Name:  "dest",
@@ -31,8 +35,9 @@ var flags = []cli.Flag{
 
 func action(c *cli.Context) {
 	config := &Config{
-		Dest: c.String("dest"),
-		Name: c.String("name"),
+		Project: c.String("project"),
+		User:    c.String("user"),
+		Dest:    c.String("dest"),
 	}
 
 	if err := Run(config); err != nil {
