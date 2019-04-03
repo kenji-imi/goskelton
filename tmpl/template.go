@@ -20,7 +20,7 @@ func SayHello() {
 
 const MakefileTmpl = `.PHONY: mod_init
 mod_init:
-	go mod init github.com/{{} .User }}/{{ .Project }}
+	go mod init github.com/{{ .User }}/{{ .Project }}
 
 .PHONY: init
 init:
