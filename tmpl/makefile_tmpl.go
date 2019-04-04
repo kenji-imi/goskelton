@@ -13,14 +13,11 @@ init_mod:
 
 .PHONY: setup
 setup:
-	go get -u
-		golang.org/x/tools/cmd/goimports
-		github.com/kisielk/errcheck
-		github.com/gcpug/zagane
+	go get -u golang.org/x/tools/cmd/goimports \
+		honnef.co/go/tools/cmd/staticcheck \
+		github.com/kisielk/errcheck \
+		github.com/gcpug/zagane \
 		github.com/stretchr/testify/assert
-	go get -d honnef.co/go/tools/cmd/staticcheck
-		cd ${GOPATH}/src/honnef.co/go/tools/cmd/staticcheck && git checkout 2017.2.2
-		go install honnef.co/go/tools/cmd/staticcheck
 
 
 ## lint
@@ -39,7 +36,7 @@ vet:
 
 .PHONY: staticcheck
 staticcheck:
-	staticcheck -checks "SA*" -ignore ` + "`cat .staticcheckignore`" + ` $(LINTPKGS)
+	staticcheck -checks "SA*" $(LINTPKGS)
 
 .PHONY: errcheck
 errcheck:
