@@ -65,7 +65,6 @@ func Run(config *Config) error {
 		"Makefile":           tmpl.MakefileTmpl,
 		"main.go":            tmpl.MainGoTmpl,
 		"src/hello/hello.go": tmpl.HelloGoTmpl,
-		".errcheckignore":    "",
 	} {
 		t, err := template.New("").Parse(tmplStr)
 		if err != nil {

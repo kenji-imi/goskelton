@@ -1,9 +1,9 @@
 package tmpl
 
 // [projeect_root]/Makefile
-const MakefileTmpl = `FMTPKGS=` + "`go list`" + `
-VETPKGS=` + "`go list`" + `
-LINTPKGS=` + "`go list`" + `
+const MakefileTmpl = `FMTPKGS=$(shell go list ./...)
+VETPKGS=$(shell go list ./...)
+LINTPKGS=$(shell go list ./...)
 
 GOTEST= go test -v
 
@@ -40,7 +40,7 @@ staticcheck:
 
 .PHONY: errcheck
 errcheck:
-	errcheck -ignore 'fmt:[FS]?[Pp]rint*' -exclude .errcheckignore $(LINTPKGS)
+	errcheck -ignore 'fmt:[FS]?[Pp]rint*' $(LINTPKGS)
 
 .PHONY: golint
 golint:
