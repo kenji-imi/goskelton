@@ -62,9 +62,10 @@ func Run(config *Config) error {
 	defer out.Close()
 
 	for targetFile, tmplStr := range map[string]string{
-		"Makefile":           tmpl.MakefileTmpl,
-		"main.go":            tmpl.MainGoTmpl,
-		"src/hello/hello.go": tmpl.HelloGoTmpl,
+		"Makefile":                tmpl.MakefileTmpl,
+		"main.go":                 tmpl.MainGoTmpl,
+		"src/hello/hello.go":      tmpl.HelloGoTmpl,
+		"src/hello/hello_test.go": tmpl.HelloTestGoTmpl,
 	} {
 		t, err := template.New("").Parse(tmplStr)
 		if err != nil {
