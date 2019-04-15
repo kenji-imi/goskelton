@@ -9,6 +9,7 @@ import (
 func RunCli(args []string) {
 	app := cli.NewApp()
 
+	app.Version = "0.0.1"
 	app.Name = "goskelton"
 	app.Usage = "goskelton"
 
@@ -24,12 +25,15 @@ var flags = []cli.Flag{
 		Usage: "generated project name",
 	},
 	cli.StringFlag{
-		Name:  "user",
-		Usage: "git user name",
+		Name:   "user",
+		EnvVar: "GOSKELTON_USER",
+		Usage:  "git user name for package import path in skelton file",
 	},
 	cli.StringFlag{
-		Name:  "dest",
-		Usage: "dest dir",
+		Name:   "dest",
+		Value:  ".",
+		EnvVar: "GOSKELTON_DEST_DIR",
+		Usage:  "path for under which directory to create project skelton",
 	},
 }
 

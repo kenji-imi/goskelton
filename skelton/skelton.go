@@ -25,20 +25,12 @@ func (c *Config) validate() error {
 
 	// user name
 	if len(c.User) == 0 {
-		if os.Getenv("GOSKELTON_USER") != "" {
-			c.User = os.Getenv("GOSKELTON_USER")
-		} else {
-			return fmt.Errorf("[ERROR] User Name was empty")
-		}
+		return fmt.Errorf("[ERROR] User Name was empty")
 	}
 
 	// destination
 	if len(c.Dest) > 0 {
-		c.Dest = strings.TrimRight(c.Project, "/")
-	} else if os.Getenv("GOSKELTON_DEST_DIR") != "" {
-		c.Dest = os.Getenv("GOSKELTON_DEST_DIR")
-	} else {
-		c.Dest = "."
+		c.Dest = strings.TrimRight(c.Dest, "/")
 	}
 
 	return nil

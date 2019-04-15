@@ -1,7 +1,10 @@
 package tmpl
 
 // [projeect_root]/Makefile
-const MakefileTmpl = `FMTPKGS=$(shell go list ./...)
+const MakefileTmpl = `REPOSITORY=github.com/{{ .User }}/{{ .Project }}
+PKGS=$(shell go list ./... | grep -v -e test)
+TESTPKGS=$(shell go list ./... | grep -e test)
+FMTPKGS=$(shell go list ./...)
 VETPKGS=$(shell go list ./...)
 LINTPKGS=$(shell go list ./...)
 
