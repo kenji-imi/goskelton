@@ -1,4 +1,4 @@
-module github.com/kenji-imi/goskelton
+module github.com/kimai07/goskelton
 
 go 1.15
 

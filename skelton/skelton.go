@@ -8,7 +8,7 @@ import (
 	"path/filepath"
 	"strings"
 
-	"github.com/kenji-imi/goskelton/tmpl"
+	"github.com/kimai07/goskelton/tmpl"
 )
 
 type Config struct {

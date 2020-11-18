@@ -3,7 +3,7 @@
 ## install
 
 ```sh
-$ go get -u github.com/kenji-imi/goskelton
+$ go get -u github.com/kimai07/goskelton
 ```
 
 ## help
@@ -35,7 +35,7 @@ GLOBAL OPTIONS:
 create project
 
 ```sh
-$ goskelton --user kenji-imi --dest . --project sample-prj
+$ goskelton --user kimai07 --dest . --project sample-prj
 2019/04/15 10:50:35 [INFO] Created ./sample-prj
 2019/04/15 10:50:35 [INFO] Created ./sample-prj/Makefile
 2019/04/15 10:50:35 [INFO] Created ./sample-prj/main.go
@@ -60,8 +60,8 @@ init modules
 
 ```sh
 $ make init_mod
-go mod init github.com/kenji-imi/sample-prj
-go: creating new go.mod: module github.com/kenji-imi/sample-prj
+go mod init github.com/kimai07/sample-prj
+go: creating new go.mod: module github.com/kimai07/sample-prj
 ```
 
 ## run
@@ -74,9 +74,9 @@ Hello!
 $ make test_unit
 go test -v ./src/...
 go: finding github.com/stretchr/testify/assert latest
-?       github.com/kenji-imi/sample-prj [no test files]
+?       github.com/kimai07/sample-prj [no test files]
 === RUN   TestGetHello
 --- PASS: TestGetHello (0.00s)
 PASS
-ok      github.com/kenji-imi/sample-prj/src/hello       0.024s
+ok      github.com/kimai07/sample-prj/src/hello       0.024s
 ```

@@ -3,7 +3,7 @@ package main
 import (
 	"os"
 
-	"github.com/kenji-imi/goskelton/skelton"
+	"github.com/kimai07/goskelton/skelton"
 )
 
 func main() {
